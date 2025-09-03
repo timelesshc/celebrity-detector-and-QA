@@ -2,3 +2,4 @@ venv/
 .env
 Celebrity_Detector_QA.egg-info/
 gcp-key.json
+.vscode
