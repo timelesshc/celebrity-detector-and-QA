@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebrity Recognition & Q&A</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'pulse-slow': 'pulse 3s ease-in-out infinite',
+          },
+          backdropBlur: {
+            xs: '2px',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen relative overflow-x-hidden">
+  <!-- Animated background elements -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+    <div class="absolute -bottom-40 -left-32 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse-slow"></div>
+  </div>
+
+  <main class="relative z-10 max-w-6xl mx-auto p-6 space-y-12">
+    <header class="text-center space-y-4">
+      <h1 class="text-5xl md:text-6xl font-bold leading-tight flex items-center justify-center gap-4">
+        <span class="text-4xl md:text-5xl">🌟</span>
+        <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">Celebrity Detector</span>
+      </h1>
+      <p class="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        Upload an image and discover celebrities with AI-powered recognition and interactive Q&A
+      </p>
+    </header>
+
+    <section class="upload-section">
+      <form method="POST" enctype="multipart/form-data" class="max-w-2xl mx-auto">
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 shadow-2xl">
+          <div class="space-y-6">
+            <div class="relative">
+              <label class="block text-sm font-medium text-slate-300 mb-3">Choose an image to analyze</label>
+              <div class="relative group">
+                <input type="file" name="image" accept="image/*" required 
+                       class="w-full p-4 bg-slate-800/50 border-2 border-dashed border-slate-600 rounded-2xl text-slate-300 
+                              file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-purple-500 file:text-white
+                              file:font-medium hover:border-purple-400 transition-all duration-300
+                              focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent">
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              </div>
+            </div>
+            
+            <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 
+                                         text-white font-semibold py-4 px-8 rounded-2xl shadow-lg hover:shadow-purple-500/25 
+                                         transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Analyze Celebrity
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    {% if result_img_data %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div class="rounded-xl overflow-hidden shadow-lg bg-indigo-900 p-2">
+          <img src="data:image/jpeg;base64,{{ result_img_data }}" alt="Detected Celebrity" class="rounded-lg w-full">
+        </div>
+
+        <div class="bg-indigo-900 p-6 rounded-xl shadow-md">
+          <h2 class="text-2xl font-semibold text-rose-300 mb-4">📄 Detected Info</h2>
+
+          <div class="bg-indigo-950 p-4 rounded-lg border border-indigo-700 space-y-2 text-sm">
+            {% for line in celebrity_info.splitlines() %}
+              {% if "**Full Name**" in line %}
+                <p><strong class="text-rose-400">👤 Full Name:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+              {% elif "**Profession**" in line %}
+                <p><strong class="text-rose-400">🎭 Profession:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+              {% elif "**Nationality**" in line %}
+                <p><strong class="text-rose-400">🌍 Nationality:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+              {% elif "**Famous For**" in line %}
+                <p><strong class="text-rose-400">⭐ Famous For:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+              {% elif "**Top Achievements**" in line %}
+                <p><strong class="text-rose-400">🏆 Top Achievements:</strong></p>
+                <ul class="list-disc list-inside text-rose-200 ml-2">
+              {% elif line.startswith("  - ") %}
+                <li>{{ line.replace('  - ', '') }}</li>
+              {% endif %}
+            {% endfor %}
+            {% if celebrity_info.find("**Top Achievements**") != -1 %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <form method="POST" class="mt-6 space-y-3">
+            <input type="hidden" name="celebrity_name" value="{{ celebrity_info.splitlines()[0].split(':')[-1] }}">
+            <input type="hidden" name="celebrity_info" value="{{ celebrity_info }}">
+            <input type="hidden" name="result_img_data" value="{{ result_img_data }}">
+
+            <input name="question" placeholder="Ask something about this celebrity..." required class="p-3 w-full bg-indigo-800 border border-indigo-700 rounded-lg text-white text-sm">
+            <button type="submit" class="bg-rose-600 hover:bg-rose-700 px-6 py-2 rounded-lg font-medium transition">
+              💬 Ask
+            </button>
+          </form>
+
+          {% if answer %}
+            <div class="answer-box mt-6 text-rose-200 text-sm">
+              <strong class="text-white">Answer:</strong><br>{{ answer }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </main>
+</body>
+</html>

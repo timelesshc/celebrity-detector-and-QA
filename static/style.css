@@ -1,0 +1,236 @@
+/* Base Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  scroll-behavior: smooth;
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-5px) rotate(0deg); }
+  75% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInFromRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(168, 85, 247, 0.4); 
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 30px rgba(168, 85, 247, 0.4); 
+  }
+}
+
+/* Section Animations */
+.upload-section {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.results-section {
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.image-container {
+  animation: slideInFromRight 0.8s ease-out 0.4s both;
+}
+
+.info-container {
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+/* Enhanced Button Styles */
+button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+/* File Input Styling */
+input[type="file"]::-webkit-file-upload-button {
+  background: linear-gradient(45deg, #8b5cf6, #a855f7);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: linear-gradient(45deg, #7c3aed, #9333ea);
+  transform: translateY(-1px);
+}
+
+/* Glass morphism effects */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Hover animations for cards */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Text animations */
+.text-shimmer {
+  background: linear-gradient(90deg, #a855f7, #ec4899, #06b6d4, #a855f7);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .results-section .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .image-container {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+  
+  .info-container {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+  }
+}
+
+/* Focus states for accessibility */
+input:focus,
+button:focus {
+  outline: none;
+  ring: 2px;
+  ring-offset: 2px;
+  ring-color: rgb(168, 85, 247);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #8b5cf6, #a855f7);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #7c3aed, #9333ea);
+}
+
+/* Answer container improvements */
+.answer-container {
+  animation: fadeInUp 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.answer-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
+}
+
+/* Subtle parallax effect for background elements */
+@media (prefers-reduced-motion: no-preference) {
+  .bg-float-1 {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .bg-float-2 {
+    animation: float 10s ease-in-out infinite reverse;
+  }
+  
+  .bg-float-3 {
+    animation: float 12s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+}
