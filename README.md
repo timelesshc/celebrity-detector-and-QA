@@ -6,9 +6,11 @@ Upload an image and discover celebrities with AI-powered recognition and interac
 ![Demo](images/app.gif)
 
 **CI/CD Pipeline:**
+
 ![CD/CD](images/CI-CD.jpg)
 
 **GKE Deployment Dashboard:**
+
 ![Deployment](images/deployment.jpg)
 
 - **Tech stack**
