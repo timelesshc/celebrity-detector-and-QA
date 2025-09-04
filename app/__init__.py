@@ -8,6 +8,7 @@ def create_app():
     
     app = Flask(__name__, template_folder=template_path)
     app.secret_key = os.getenv("SECRET_KEY", "default_secret")
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
     from app.routes import main
 
