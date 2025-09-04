@@ -92,20 +92,8 @@ Enable the following:
 
 5. **Important:** Add `gcp-key.json` to your `.gitignore` to prevent it from being pushed to GitHub.
 
----
 
-### 🔐 Convert `gcp-key.json` to Base64
-
-In your terminal (e.g., Git Bash or VS Code), run:
-
-```bash
-cat gcp-key.json | base64 -w 0
-```
-
-Copy the output and use it as needed in environment variables or CircleCI secrets.
-
-
-### 🔐 Add `key.json` as a GitLab CI/CD Secret Variable
+### 🔐 Add `gcp-key.json` as a GitLab CI/CD Secret Variable
 
 1. Go to your **GitLab project** → **Settings** → **CI/CD** → expand the **Variables** section.
 
