@@ -376,3 +376,26 @@
 2025-09-04 14:23:00,150 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:00] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
 2025-09-04 14:23:11,467 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:11] "POST / HTTP/1.1" 200 -
 2025-09-04 14:23:11,485 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:11] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:26:33,735 - INFO - GROQ_API_KEY found: gsk_IAqf6k...
+2025-09-04 14:26:33,738 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.56:5000
+2025-09-04 14:26:33,738 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-04 14:26:36,299 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:36] "GET / HTTP/1.1" 200 -
+2025-09-04 14:26:36,315 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:36] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:26:42,558 - INFO - API Response status code: 200
+2025-09-04 14:26:42,566 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:42] "POST / HTTP/1.1" 200 -
+2025-09-04 14:26:42,579 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:42] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:26:54,938 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:54] "POST / HTTP/1.1" 200 -
+2025-09-04 14:26:54,964 - INFO - 127.0.0.1 - - [04/Sep/2025 14:26:54] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:27:09,021 - INFO - 127.0.0.1 - - [04/Sep/2025 14:27:09] "POST / HTTP/1.1" 200 -
+2025-09-04 14:27:09,042 - INFO - 127.0.0.1 - - [04/Sep/2025 14:27:09] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:27:17,883 - INFO - 127.0.0.1 - - [04/Sep/2025 14:27:17] "POST / HTTP/1.1" 200 -
+2025-09-04 14:27:17,908 - INFO - 127.0.0.1 - - [04/Sep/2025 14:27:17] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:28:04,218 - INFO - API Response status code: 200
+2025-09-04 14:28:04,218 - INFO - Celebrity detected: Warren Edward Buffett
+2025-09-04 14:28:04,229 - INFO - 127.0.0.1 - - [04/Sep/2025 14:28:04] "POST / HTTP/1.1" 200 -
+2025-09-04 14:28:04,262 - INFO - 127.0.0.1 - - [04/Sep/2025 14:28:04] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:28:38,039 - INFO - 127.0.0.1 - - [04/Sep/2025 14:28:38] "POST / HTTP/1.1" 200 -
+2025-09-04 14:28:38,058 - INFO - 127.0.0.1 - - [04/Sep/2025 14:28:38] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
