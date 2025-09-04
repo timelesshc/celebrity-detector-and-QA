@@ -361,3 +361,18 @@
 2025-09-04 13:35:23,599 - INFO - Celebrity detected: Jackie Chan
 2025-09-04 13:35:23,603 - INFO - 127.0.0.1 - - [04/Sep/2025 13:35:23] "POST / HTTP/1.1" 200 -
 2025-09-04 13:35:23,630 - INFO - 127.0.0.1 - - [04/Sep/2025 13:35:23] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:22:08,843 - INFO - GROQ_API_KEY found: gsk_IAqf6k...
+2025-09-04 14:22:08,874 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.56:5000
+2025-09-04 14:22:08,875 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-04 14:22:10,041 - INFO - 127.0.0.1 - - [04/Sep/2025 14:22:10] "GET / HTTP/1.1" 200 -
+2025-09-04 14:22:10,057 - INFO - 127.0.0.1 - - [04/Sep/2025 14:22:10] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:22:14,864 - INFO - 127.0.0.1 - - [04/Sep/2025 14:22:14] "POST / HTTP/1.1" 200 -
+2025-09-04 14:22:14,878 - INFO - 127.0.0.1 - - [04/Sep/2025 14:22:14] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:23:00,132 - INFO - API Response status code: 200
+2025-09-04 14:23:00,138 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:00] "POST / HTTP/1.1" 200 -
+2025-09-04 14:23:00,150 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:00] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2025-09-04 14:23:11,467 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:11] "POST / HTTP/1.1" 200 -
+2025-09-04 14:23:11,485 - INFO - 127.0.0.1 - - [04/Sep/2025 14:23:11] "[33mGET /static/style.css HTTP/1.1[0m" 404 -

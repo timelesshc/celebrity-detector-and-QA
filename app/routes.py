@@ -25,6 +25,10 @@ def index():
                 if face_coords is not None:
                     celebrity_info, celebrity_name = celebrity_detector.identify(img_bytes)
                     result_img_data = base64.b64encode(img_bytes).decode('utf-8')
+                    
+                    # Show image even when no celebrity is detected
+                    if celebrity_name is None:
+                        result_img_data = base64.b64encode(img_bytes).decode('utf-8')
                 else:
                     celebrity_info = "No face detected in the image. Please try another image."
 

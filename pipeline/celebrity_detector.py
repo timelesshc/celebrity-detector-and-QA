@@ -64,6 +64,10 @@ class CelebrityDetector:
             if response.status_code == 200:
                 result = response.json()['choices'][0]['message']['content']
                 name = self.extract_name(result)
+                
+                if result.strip().lower() == "unknown" or name == "Unknown":
+                    return "No celebrity detected. Please try again.", None
+                
                 self.logger.info(f"Celebrity detected: {name}")
                 return result, name
             else:

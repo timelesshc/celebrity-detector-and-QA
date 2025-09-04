@@ -82,24 +82,28 @@
           <h2 class="text-2xl font-semibold text-rose-300 mb-4">📄 Detected Info</h2>
 
           <div class="bg-indigo-950 p-4 rounded-lg border border-indigo-700 space-y-2 text-sm">
-            {% for line in celebrity_info.splitlines() %}
-              {% if "**Full Name**" in line %}
-                <p><strong class="text-rose-400">👤 Full Name:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
-              {% elif "**Profession**" in line %}
-                <p><strong class="text-rose-400">🎭 Profession:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
-              {% elif "**Nationality**" in line %}
-                <p><strong class="text-rose-400">🌍 Nationality:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
-              {% elif "**Famous For**" in line %}
-                <p><strong class="text-rose-400">⭐ Famous For:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
-              {% elif "**Top Achievements**" in line %}
-                <p><strong class="text-rose-400">🏆 Top Achievements:</strong></p>
-                <ul class="list-disc list-inside text-rose-200 ml-2">
-              {% elif line.startswith("  - ") %}
-                <li>{{ line.replace('  - ', '') }}</li>
+            {% if "No celebrity detected" in celebrity_info or "No face detected" in celebrity_info %}
+              <p class="text-yellow-400 text-center py-4">{{ celebrity_info }}</p>
+            {% else %}
+              {% for line in celebrity_info.splitlines() %}
+                {% if "**Full Name**" in line %}
+                  <p><strong class="text-rose-400">👤 Full Name:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+                {% elif "**Profession**" in line %}
+                  <p><strong class="text-rose-400">🎭 Profession:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+                {% elif "**Nationality**" in line %}
+                  <p><strong class="text-rose-400">🌍 Nationality:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+                {% elif "**Famous For**" in line %}
+                  <p><strong class="text-rose-400">⭐ Famous For:</strong> {{ line.split(':', 1)[-1].strip() }}</p>
+                {% elif "**Top Achievements**" in line %}
+                  <p><strong class="text-rose-400">🏆 Top Achievements:</strong></p>
+                  <ul class="list-disc list-inside text-rose-200 ml-2">
+                {% elif line.startswith("  - ") %}
+                  <li>{{ line.replace('  - ', '') }}</li>
+                {% endif %}
+              {% endfor %}
+              {% if celebrity_info.find("**Top Achievements**") != -1 %}
+                </ul>
               {% endif %}
-            {% endfor %}
-            {% if celebrity_info.find("**Top Achievements**") != -1 %}
-              </ul>
             {% endif %}
           </div>
 
