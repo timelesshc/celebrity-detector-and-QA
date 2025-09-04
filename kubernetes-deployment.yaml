@@ -15,6 +15,7 @@ spec:
       containers:
       - name: llmops-app
         image: us-central1-docker.pkg.dev/nimble-poet-470622-s8/llmops-repo/llmops-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
