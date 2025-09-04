@@ -1,4 +1,4 @@
-### 1. Project Introduction
+# 1. Project Introduction
 Upload an image and discover celebrities with AI-powered recognition and interactive Q&A.
 
 **Demo:**
@@ -8,208 +8,157 @@ Upload an image and discover celebrities with AI-powered recognition and interac
 - **Tech stack**
 
     - Groq --> LLM
-    - HuggingFace --> Embedding model
-    - Langchain --> AI framework to interact with LLM
-    - GCP VM --> Virtual machine on the cloud
-    - Minikube --> For making a Kubternetes Cluster where you can deploy your application
+    - Gitlab --> Serve as SCM for the project. Also a CI/CD tool for making pipelines
+    - OpenCV Python --> To deal with image work like conversion of images, scaling, etc
     - Flask --> Application backend
     - HTML/CSS --> To make UI or frontend of the app
     - Docker --> For containerization of the app during deployment
-    - AstraDB --> Online vector store
-    - GitHub --> Work as a Source Code Management (SCM) for your project
-    - Prometheus --> Collects and stores real-time metrics (like CPU usage, memory, request rate) from your application running in Kubernetes
-    - Grafana Cloud --> Monitoring your Kubernetes Clusters and visualize the metrics in the form of dashboards
+    - GCP GAR --> For storing the Docker images
+    - GCP GKE --> To deploy and run the app on the cloud within a Kubernetes Cluster. It's a service offered by Google Cloud
 
 - **Workflow**
 
 ![alt text](/images/image.png)
 
-### 2. Configure VM Instance
+# 2. Configure VM Instance
 
-- **Clone your GitHub repo**
+### ✅ Pre-Deployment Checklist
 
-  ```bash
-  git clone https://github.com/timelesshc/online-product-recommender.git
-  ls
-  cd online-product-recommender
-  ls  # You should see the contents of your project
-  ```
+Check that you have done the following before moving to the CircleCI deployment part:
 
-- **Install Docker**
+1. ✅ Dockerfile  
+2. ✅ Kubernetes Deployment file  
+3. ✅ Code Versioning using GitLab
 
-  - Search: "Install Docker on Ubuntu"
-  - Open the first official Docker website (docs.docker.com)
-  - Scroll down and copy the **first big command block** and paste into your VM terminal
-  - Then copy and paste the **second command block**
-  - Then run the **third command** to test Docker:
+### 🚀 GitLab Project Setup and Code Versioning
 
-    ```bash
-    docker run hello-world
-    ```
+Make an account on [GitLab](https://gitlab.com), then create a **public project** and follow all necessary steps mentioned in the course video.
 
-- **Run Docker without sudo**
-
-  - On the same page, scroll to: **"Post-installation steps for Linux"**
-  - Paste all 4 commands one by one to allow Docker without `sudo`
-  - Last command is for testing
-
-- **Enable Docker to start on boot**
-
-  - On the same page, scroll down to: **"Configure Docker to start on boot"**
-  - Copy and paste the command block (2 commands):
-
-    ```bash
-    sudo systemctl enable docker.service
-    sudo systemctl enable containerd.service
-    ```
-
-- **Verify Docker Setup**
-
-  ```bash
-  systemctl status docker       # You should see "active (running)"
-  docker ps                     # No container should be running
-  docker ps -a                 # Should show "hello-world" exited container
-  ```
-
-
-### 3. Configure Minikube inside VM
-
-- **Install Minikube**
-
-  - Open browser and search: `Install Minikube`
-  - Open the first official site (minikube.sigs.k8s.io) with `minikube start` on it
-  - Choose:
-    - **OS:** Linux
-    - **Architecture:** *x86*
-    - Select **Binary download**
-  - Reminder: You have already done this on Windows, so you're familiar with how Minikube works
-
-- **Install Minikube Binary on VM**
-
-  - Copy and paste the installation commands from the website into your VM terminal
-
-- **Start Minikube Cluster**
-
-  ```bash
-  minikube start
-  ```
-
-  - This uses Docker internally, which is why Docker was installed first
-
-- **Install kubectl**
-
-  - Search: `Install kubectl`
-  - Run the first command with `curl` from the official Kubernetes docs
-  - Run the second command to validate the download
-  - Instead of installing manually, go to the **Snap section** (below on the same page)
-
-  ```bash
-  sudo snap install kubectl --classic
-  ```
-
-  - Verify installation:
-
-    ```bash
-    kubectl version --client
-    ```
-
-- **Check Minikube Status**
-
-  ```bash
-  minikube status         # Should show all components running
-  kubectl get nodes       # Should show minikube node
-  kubectl cluster-info    # Cluster info
-  docker ps               # Minikube container should be running
-  ```
-
-### 4. Interlink your Github on VSCode and on VM
+Now, perform **code versioning** using GitLab by running the following commands:
 
 ```bash
-git config --global user.email "xxx@xxx.com"
-git config --global user.name "xxxx"
-
+git init
+git branch -M main
+git remote add origin https://gitlab.com/your-username/your-repo.git
 git add .
-git commit -m "commit"
+git commit -m "Initial commit"
 git push origin main
+
 ```
 
-- When prompted:
-  - **Username**: `xxx`
-  - **Password**: GitHub token (paste, it's invisible)
+### ✅ Enable Required GCP APIs
+
+Go to your GCP account and enable all the following APIs:
+
+**Navigation:**  
+In the left pane → **APIs & Services** → **Library**
+
+Enable the following:
+
+- Kubernetes Engine API  
+- Container Registry API  
+- Compute Engine API  
+- Cloud Build API  
+- Cloud Storage API  
+- IAM API
+
+
+### ✅ Create GKE Cluster and Artifact Registry
+
+1. **Create GKE Cluster:**
+   - Go to your GCP Console and search for **GKE**.
+   - Create a new cluster with a name of your choice.
+   - In the **Networking** tab, provide the necessary access/configurations.
+
+2. **Create Artifact Registry:**
+   - In the GCP Console, search for **Artifact Registry**.
+   - Create a new Artifact Registry with a name of your choice.
+
+
+### ✅ Create a Service Account and Configure Access
+
+1. **Create a Service Account** in your GCP Console.
+
+2. **Assign the following roles:**
+   - Storage Object Admin  
+   - Storage Object Viewer  
+   - Owner  
+   - Artifact Registry Admin  
+   - Artifact Registry Writer  
+
+3. **Download the key** as a `.json` file.
+
+4. **Place the key file** (e.g., `gcp-key.json`) in the **root directory** of your project.
+
+5. **Important:** Add `gcp-key.json` to your `.gitignore` to prevent it from being pushed to GitHub.
 
 ---
 
+### 🔐 Convert `gcp-key.json` to Base64
 
-### 5. Build and Deploy your APP on VM
+In your terminal (e.g., Git Bash or VS Code), run:
 
 ```bash
-## Point Docker to Minikube
-eval $(minikube docker-env)
-
-docker build -t llmops-app:latest .
-
-kubectl create secret generic llmops-secrets \
-  --from-literal=GROQ_API_KEY="" \
-  --from-literal=HUGGINGFACEHUB_API_TOKEN="" \
-  --from-literal=HF_TOKEN="" \
-  --from-literal=ASTRA_DB_API_ENDPOINT="" \
-  --from-literal=ASTRA_DB_APPLICATION_TOKEN="" \
-  --from-literal=ASTRA_DB_KEYSPACE="" 
-
-kubectl apply -f llmops-k8s.yaml
-
-
-kubectl get pods
-
-### U will see pods runiing
-
-
-# Do minikube tunnel on one terminal
-
-minikube tunnel
-
-
-# Open another terminal
-
-kubectl port-forward svc/llmops-service 8501:80 --address 0.0.0.0
-
-## Now copy external ip and :8501 and see ur app there....
-
-
+cat gcp-key.json | base64 -w 0
 ```
 
-### 6. PROMETHEUS AND GRAFANA MONITORING OF YOUR APP
-```bash
-### Open another VM terminal 
-
-kubectl create namespace monitoring
-
-kubectl get ns
+Copy the output and use it as needed in environment variables or CircleCI secrets.
 
 
-kubectl apply -f prometheus/prometheus-configmap.yaml
+### 🔐 Add `key.json` as a GitLab CI/CD Secret Variable
 
-kubectl apply -f prometheus/prometheus-deployment.yaml
+1. Go to your **GitLab project** → **Settings** → **CI/CD** → expand the **Variables** section.
 
-kubectl apply -f grafana/grafana-deployment.yaml
+2. Click **Add Variable** with the following details:
 
-## Check target health also..
-## On IP:9090
-kubectl port-forward --address 0.0.0.0 svc/prometheus-service -n monitoring 9090:9090
+- **Key:** `GCP_SA_KEY`  
+- **Value:**  
+  Run the following command in your terminal to get the base64 value of your `gcp-key.json` file:
 
-## Username:Pass --> admin:admin
-kubectl port-forward --address 0.0.0.0 svc/grafana-service -n monitoring 3000:3000
+  ```bash
+  cat gcp-key.json | base64 -w 0
+  ```
+
+### ✅ Set Up LLMOps Secrets in GKE using kubectl
+
+1. **Access your GKE cluster:**
+   - Open your GKE Console.
+   - Open the **kubectl terminal**.
+
+2. **Configure your local terminal to connect with your cluster:**
+
+   Run the following command, adjusting for your project details:
+
+   ```bash
+   gcloud container clusters get-credentials llmops-cluster1 \
+   --region us-central1 \
+   --project <your project name>
+   ```
+
+3. **Create a Kubernetes secret to store your LLM API key:**
+
+   ```bash
+   kubectl create secret generic llmops-secrets \
+   --from-literal=GROQ_API_KEY="your_actual_groq_api_key"
+   ```
+
+   > This secret will be referenced in your Kubernetes deployment file to securely fetch the `GROQ_API_KEY`.
 
 
+### ⚙️ Set Up GitLab CI/CD with `.gitlab-ci.yml`
 
-Configure Grafana
-Go to Settings > Data Sources > Add Data Source
+Create a `.gitlab-ci.yml` file in the root of your project directory.
 
-Choose Prometheus
+✅ GitLab CI/CD setup complete.
 
-URL: http://prometheus-service.monitoring.svc.cluster.local:9090
+Now Push code to Gitlab ---> Automatically triggers the pipeline or u can manually trigger it using
 
-Click Save & Test
+ - Go to Left pane of Gitlab
+ - Go to Build --> Pipelines
+ - Trigger pipeline from there
 
-Green success mesaage shown....
-```
+* Note:
+Your first pipeline might fail if it is  your first time in GitLab because u need to verify your account using phone number or credit card
+Do verify and again trigger the pipeline...
+
+- Now go see ur app on GKE Workloads...
